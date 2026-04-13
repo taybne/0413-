@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile - TAG</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, "SF Pro Display", system-ui, sans-serif;
+            background: linear-gradient(135deg, #FFB6D9 0%, #FFCCE5 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .profile-container {
+            background: #3a3a3a;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 400px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #fff;
+        }
+        .profile-info {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: block;
+            object-fit: cover;
+        }
+        .profile-details {
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+        .profile-details p {
+            margin-bottom: 10px;
+        }
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #FFB6D9 0%, #FFCCE5 100%);
+            color: white;
+        }
+        .btn-danger {
+            background: #bf1f3b;
+            color: white;
+        }
+        .btn-danger:hover {
+            background: #e53c63;
+        }
+        .btn-secondary {
+            background: #4a4a4a;
+            color: #ddd;
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .back-link a {
+            color: #FFB6D9;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <h1>Profile</h1>
+
+        <div class="profile-info">
+            <img src="https://via.placeholder.com/100x100/fff5f5/ffd700?text={{ user.nickname[0].upper() }}" alt="Avatar" class="profile-avatar">
+            <div class="profile-details">
+                <p><strong>Nickname:</strong> {{ user.nickname }}</p>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+                <p><strong>Joined:</strong> {{ user.created_at.strftime('%B %Y') }}</p>
+            </div>
+        </div>
+
+        <form method="POST" action="/delete-account" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
+            <button type="submit" class="btn btn-danger">Delete Account</button>
+        </form>
+
+        <a href="/" class="btn btn-secondary">Back to App</a>
+
+        <div class="back-link">
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+</body>
+</html>
