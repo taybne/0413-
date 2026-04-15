@@ -665,6 +665,29 @@
         background: rgb(50, 50, 50);
         border-radius: 24px;
         overflow: hidden;
+        position: relative;
+      }
+      .share-location-icon {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgba(255, 182, 217, 0.9);
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+        color: white;
+        cursor: pointer;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+      }
+      .share-location-icon:hover {
+        background: rgba(255, 182, 217, 1);
+        transform: scale(1.1);
       }
       .place-gallery {
         position: relative;
@@ -1545,6 +1568,7 @@
       <div id="placeModal" class="place-modal hidden">
         <div class="place-modal-overlay" onclick="closePlaceModal()">
           <div class="place-modal-content" onclick="event.stopPropagation()">
+            <button id="shareLocationBtn" class="share-location-icon">↗</button>
             <div class="place-gallery">
               <button class="gallery-prev" onclick="changePhoto(-1)">❮</button>
               <img id="placePhotoMain" src="" alt="" />
@@ -2024,6 +2048,14 @@
         closeGameView();
       };
 
+      const shareLocationBtn = document.getElementById("shareLocationBtn");
+      shareLocationBtn.onclick = () => {
+        if (currentPlace) {
+          localStorage.setItem('shareLocation', JSON.stringify(currentPlace));
+          window.location.href = '/chats';
+        }
+      };
+
       profileCloseBtn.onclick = () => {
         profileModal.classList.add("hidden");
         if (feedContent) {
@@ -2131,7 +2163,7 @@
           },
           {
             title: "Хлебозавод № 9",
-            desc: "Новодмитровская улица, 1 ст1",
+            desc: "...и дизайн завод /Новодмитровская улица, 1 ст1",
             themes: ["culture", "for-photos"],
             coords: [55.7518, 37.6255],
             photos: [
@@ -2139,6 +2171,10 @@
               "/static/photos/moscow/hlebz3.jpg",
               "/static/photos/moscow/hlebz4.jpg",
               "/static/photos/moscow/hlebz1.jpg",
+              "/static/photos/moscow/hlebz5.png",
+              "/static/photos/moscow/hlebz6.png",
+              "/static/photos/moscow/hlebz7.png",
+              "/static/photos/moscow/hlebz8.png",
             ],
           },
           {
@@ -2162,13 +2198,25 @@
             title: "ресторан SIXTY",
             desc: "один из самых высоких ресторанов в Европе",
             themes: ["restaurant", "yum", "for photos"],
-            coords: [55.755648, 37.604526],
+            coords: [55.7492, 37.5286],
             photos: [
               "/static/photos/moscow/sixty1.png",
               "/static/photos/moscow/sixty2.png",
               "/static/photos/moscow/sixty3.png",
               "/static/photos/moscow/sixty4.png",
               "/static/photos/moscow/sixty5.png",
+            ],
+          },
+          {
+            title: "Panorama360",
+            desc: "На 89 этаже Башни «Федерация. Восток» - с самой высокой фабрикой мороженого",
+            themes: ["for-photos", "popular"],
+            coords: [55.7492, 37.5286],
+            photos: [
+              "/static/photos/moscow/360.1.png",
+              "/static/photos/moscow/360.2.jpg",
+              "/static/photos/moscow/360.3.jpg",
+              "/static/photos/moscow/360.4.jpg",
             ],
           },
         ],
@@ -2205,6 +2253,77 @@
               "/static/photos/spb/бертгольд10.png",
               "/static/photos/spb/бертгольд11.png",
               "/static/photos/spb/бертгольд12.png",
+            ],
+          },
+          {
+            title: "Севкабель Порт",
+            desc: "Кожевенная линия, 40Б, Санкт-Петербург",
+            themes: ["for-photos", "popular", "leisure"],
+            coords: [59.9733, 30.2938],
+            photos: [
+              "/static/photos/spb/svk1.jpg",
+              "/static/photos/spb/svk2.jpg",
+              "/static/photos/spb/svk3.png",
+              "/static/photos/spb/svk4.jpg",
+              "/static/photos/spb/svk5.jpg",
+              "/static/photos/spb/svk6.jpg",
+            ],
+          },
+          {
+            title: "Эрарта",
+            desc: "29-я линия В.О., 2, Санкт-Петербург (Васильевский остров, 29-я линия, дом 2)",
+            themes: ["culture", "for-photos"],
+            coords: [59.9226, 30.2554],
+            photos: [
+              "/static/photos/spb/erarta2.jpg",
+              "/static/photos/spb/erarta3.png",
+              "/static/photos/spb/erarta4.jpg",
+              "/static/photos/spb/er5.jpg",
+            ],
+          },
+          {
+            title: "Новая Голландия",
+            desc: "////",
+            themes: ["popular", "culture", "for-photos", "leisure"],
+            coords: [59.9339, 30.3117],
+            photos: [
+              "/static/photos/spb/ng1.jpg",
+              "/static/photos/spb/ng2.jpg",
+              "/static/photos/spb/ng3.png",
+              "/static/photos/spb/ng4.jpg",
+              "/static/photos/spb/ng5.jpg",
+              "/static/photos/spb/ng6.jpg",
+              "/static/photos/spb/ng7.jpg",
+              "/static/photos/spb/ng8.jpg",
+              "/static/photos/spb/ng9.png",
+              "/static/photos/spb/ng10.jpg",
+              "/static/photos/spb/ng11.png",
+              "/static/photos/spb/ng12.jpg",
+              "/static/photos/spb/ng13.png",
+            ],
+          },
+          {
+            title: "Шоколадная фабрика Счастье",
+            desc: "...",
+            themes: ["culture", "for-photos", "popular", "yum"],
+            coords: [59.9275, 30.3000],
+            photos: [
+              "/static/photos/spb/sc1.jpg",
+              "/static/photos/spb/sc2.jpg",
+              "/static/photos/spb/sc3.jpg",
+              "/static/photos/spb/sc4.jpg",
+              "/static/photos/spb/sc5.jpg",
+              "/static/photos/spb/sc6.jpg",
+            ],
+          },
+          {
+            title: "Булочные Ф. Вольчека",
+            desc: "///",
+            themes: ["culture", "for-photos", "popular", "yum"],
+            coords: [59.9315, 30.3400],
+            photos: [
+              "/static/photos/spb/bv1.jpg",
+              "/static/photos/spb/bv2.jpg",
             ],
           },
         ],
@@ -2260,7 +2379,7 @@
           },
           {
             title: "Дворик Рукс",
-            desc: "...",
+            desc: "коммунистическая улица, 45",
             themes: ["yum", "popular", "for-photos"],
             coords: [55.0200, 82.9000],
             photos: [
@@ -2371,9 +2490,18 @@
         });
       }
 
+      let currentPlace = null;
+
       function openPlaceModal(place) {
+        currentPlace = place;
         document.getElementById("placeTitleModal").textContent = place.title;
-        document.getElementById("placeDescModal").textContent = place.desc;
+        const placeDescEl = document.getElementById("placeDescModal");
+        if (place.descHtml) {
+          placeDescEl.innerHTML = place.descHtml;
+        } else {
+          placeDescEl.textContent = place.desc;
+        }
+
         currentPlacePhotos =
           Array.isArray(place.photos) && place.photos.length
             ? normalizePhotos(place.photos)
@@ -2395,19 +2523,32 @@
               leafletMap = null;
             }
 
-            if (place.coords) {
-              mapElement.innerHTML = ""; 
-              leafletMap = L.map(mapElement).setView(place.coords, 13);
+            mapElement.innerHTML = "";
+            leafletMap = L.map(mapElement);
 
-              //  слой карты OpenStreetMap
-              L.tileLayer(
-                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                {
-                  attribution: "© OpenStreetMap contributors",
-                  maxZoom: 19,
-                },
-              ).addTo(leafletMap);
+            //  слой карты OpenStreetMap
+            L.tileLayer(
+              "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+              {
+                attribution: "© OpenStreetMap contributors",
+                maxZoom: 19,
+              },
+            ).addTo(leafletMap);
 
+            if (Array.isArray(place.locations) && place.locations.length) {
+              const bounds = L.latLngBounds(
+                place.locations.map((loc) => loc.coords),
+              );
+
+              place.locations.forEach((loc) => {
+                L.marker(loc.coords)
+                  .addTo(leafletMap)
+                  .bindPopup(loc.label || place.title);
+              });
+
+              leafletMap.fitBounds(bounds, { padding: [30, 30] });
+            } else if (place.coords) {
+              leafletMap.setView(place.coords, 13);
               //  маркер на локацию
               L.marker(place.coords)
                 .addTo(leafletMap)

@@ -93,6 +93,7 @@ class PrivateMessage(db.Model):
     file_url = db.Column(db.String(500), nullable=True)  # Path to uploaded file
     file_type = db.Column(db.String(50), nullable=True)  # 'image', 'file', etc.
     file_name = db.Column(db.String(255), nullable=True)  # Original filename
+    location = db.Column(db.Text, nullable=True)  # JSON string of location data
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     sender = db.relationship('User', foreign_keys=[sender_id], backref='sent_messages')
     receiver = db.relationship('User', foreign_keys=[receiver_id], backref='received_messages')
@@ -159,6 +160,7 @@ def handle_private_message(data):
     file_url = data.get('file_url')
     file_type = data.get('file_type')
     file_name = data.get('file_name')
+    location = data.get('location')
 
     # Save to DB
     msg = PrivateMessage(
@@ -167,7 +169,8 @@ def handle_private_message(data):
         message=message_text,
         file_url=file_url,
         file_type=file_type,
-        file_name=file_name
+        file_name=file_name,
+        location=json.dumps(location) if location else None
     )
     db.session.add(msg)
     db.session.commit()
@@ -181,6 +184,7 @@ def handle_private_message(data):
         'file_url': file_url,
         'file_type': file_type,
         'file_name': file_name,
+        'location': location,
         'created_at': msg.created_at.strftime('%Y-%m-%d %H:%M:%S'),
         'sender_nickname': current_user.nickname
     }, room=str(receiver_id))
@@ -191,6 +195,10 @@ def handle_private_message(data):
         'sender_id': sender_id,
         'receiver_id': receiver_id,
         'message': message_text,
+        'file_url': file_url,
+        'file_type': file_type,
+        'file_name': file_name,
+        'location': location,
         'created_at': msg.created_at.strftime('%Y-%m-%d %H:%M:%S'),
         'sender_nickname': current_user.nickname
     }, room=str(sender_id))
@@ -462,6 +470,7 @@ def get_messages(user_id):
         'file_url': m.file_url,
         'file_type': m.file_type,
         'file_name': m.file_name,
+        'location': json.loads(m.location) if m.location else None,
         'created_at': m.created_at.strftime('%Y-%m-%d %H:%M:%S'),
         'sender_nickname': m.sender.nickname
     } for m in messages])
@@ -638,6 +647,8 @@ def migrate_user_verification_schema():
                 conn.execute(text('ALTER TABLE "private_message" ADD COLUMN file_type VARCHAR(50)'))
             if 'file_name' not in pm_existing:
                 conn.execute(text('ALTER TABLE "private_message" ADD COLUMN file_name VARCHAR(255)'))
+            if 'location' not in pm_existing:
+                conn.execute(text('ALTER TABLE "private_message" ADD COLUMN location TEXT'))
 
 
 @app.route("/chats")

@@ -82,6 +82,45 @@
             color: #FFB6D9;
             text-decoration: none;
         }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #2a2a2a;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid #444;
+            z-index: 1000;
+        }
+        .nav-button {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 5px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .nav-button.active {
+            color: #FFB6D9;
+        }
+        .nav-button:hover {
+            background: rgba(255, 182, 217, 0.1);
+        }
+        .nav-icon {
+            font-size: 18px;
+            margin-bottom: 2px;
+        }
+        .nav-label {
+            font-size: 10px;
+        }
+    </style>
     </style>
 </head>
 <body>
@@ -107,5 +146,36 @@
             <a href="/logout">Logout</a>
         </div>
     </div>
+
+    <div class="bottom-nav">
+        <button id="chatsNavBtn" class="nav-button">
+            <span class="nav-icon">💬</span>
+            <span class="nav-label">Chats</span>
+        </button>
+        <button id="feedNavBtn" class="nav-button">
+            <span class="nav-icon">🌍</span>
+            <span class="nav-label">Feed</span>
+        </button>
+        <button id="mapNavBtn" class="nav-button">
+            <span class="nav-icon">🗺️</span>
+            <span class="nav-label">Map</span>
+        </button>
+        <button id="profileNavBtn" class="nav-button active">
+            <span class="nav-icon">👤</span>
+            <span class="nav-label">Profile</span>
+        </button>
+    </div>
+
+    <script>
+        const chatsNavBtn = document.getElementById("chatsNavBtn");
+        const feedNavBtn = document.getElementById("feedNavBtn");
+        const mapNavBtn = document.getElementById("mapNavBtn");
+        const profileNavBtn = document.getElementById("profileNavBtn");
+
+        chatsNavBtn.onclick = () => (window.location.href = "/chats");
+        feedNavBtn.onclick = () => (window.location.href = "/");
+        mapNavBtn.onclick = () => (window.location.href = "/");
+        profileNavBtn.onclick = () => {}; // Уже на профиле
+    </script>
 </body>
 </html>

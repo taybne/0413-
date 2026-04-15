@@ -164,6 +164,18 @@
       .message-file:hover {
         background: rgba(255, 255, 255, 0.2);
       }
+      .location-message {
+        cursor: pointer;
+        padding: 8px 12px;
+        background: rgba(255, 182, 217, 0.1);
+        border-radius: 8px;
+        margin-top: 5px;
+        color: #ffb6d9;
+        font-weight: 500;
+      }
+      .location-message:hover {
+        background: rgba(255, 182, 217, 0.2);
+      }
       .chat-input-container {
         padding: 20px;
         border-top: 1px solid #444;
@@ -206,7 +218,6 @@
         border-color: #ffb6d9;
       }
 
-      /* ===== BOTTOM NAVIGATION ===== */
       .bottom-nav {
         position: fixed;
         bottom: 0;
@@ -260,7 +271,6 @@
         background: rgba(255, 182, 217, 0.1);
       }
 
-      /* ===== MODAL ===== */
       .modal {
         position: fixed;
         top: 0;
@@ -341,6 +351,101 @@
         margin-top: 20px;
       }
 
+      .location-share-card {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin: 20px 0;
+        padding: 15px;
+        background: #3a3a3a;
+        border-radius: 12px;
+      }
+
+      .location-share-img {
+        width: 60px;
+        height: 60px;
+        border-radius: 8px;
+        object-fit: cover;
+      }
+
+      .location-share-info h3 {
+        margin: 0 0 5px 0;
+        color: #fff;
+        font-size: 16px;
+      }
+
+      .location-share-info p {
+        margin: 0;
+        color: #ccc;
+        font-size: 14px;
+      }
+
+      .chat-selection-list {
+        max-height: 300px;
+        overflow-y: auto;
+        margin-top: 20px;
+      }
+
+      .chat-select-item {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        border-bottom: 1px solid #444;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .chat-select-item:hover {
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .chat-select-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #555;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        margin-right: 15px;
+      }
+
+      .chat-select-info h4 {
+        margin: 0 0 5px 0;
+        color: #fff;
+        font-size: 16px;
+      }
+
+      .chat-select-info p {
+        margin: 0;
+        color: #ccc;
+        font-size: 14px;
+      }
+
+      .location-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        margin: 20px 0;
+      }
+
+      .location-img {
+        width: 100%;
+        max-width: 300px;
+        height: 200px;
+        border-radius: 12px;
+        object-fit: cover;
+      }
+
+      .location-info p {
+        color: #ddd;
+        text-align: center;
+        margin: 0;
+      }
+
       .btn {
         flex: 1;
         padding: 10px 20px;
@@ -385,7 +490,6 @@
           />
         </div>
         <div class="users-list" id="usersList">
-          <!-- Пользователи будут загружаться сюда -->
         </div>
       </div>
 
@@ -394,7 +498,6 @@
           <h2 id="chatUserName">Chat</h2>
         </div>
         <div class="chat-messages" id="chatMessages">
-          <!-- Messages will appear here -->
         </div>
         <div class="chat-input-container">
           <input
@@ -414,7 +517,6 @@
         </div>
       </div>
 
-      <!-- МОДАЛКА ПРОФИЛЯ -->
       <div id="profileModal" class="modal hidden">
         <div class="modal-content">
           <button class="modal-close-btn" id="profileCloseBtn">✕</button>
@@ -436,25 +538,69 @@
               class="btn secondary"
               onclick="window.location.href = '/logout'"
             >
-              🚪 Выйти
+               Выйти
             </button>
           </div>
         </div>
       </div>
 
-      <!-- НИЖНЯЯ ПАНЕЛЬ НАВИГАЦИИ -->
+      <div id="shareLocationModal" class="modal hidden">
+        <div class="modal-content">
+          <button class="modal-close-btn" id="shareLocationCloseBtn">✕</button>
+          <h2>Отправить локацию</h2>
+          <div class="location-share-card">
+            <img id="shareLocationPhoto" src="" alt="" class="location-share-img" />
+            <div class="location-share-info">
+              <h3 id="shareLocationTitle"></h3>
+              <p id="shareLocationDesc"></p>
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button id="sendLocationBtn" class="btn primary">📤 Отправить</button>
+            <button id="cancelShareBtn" class="btn secondary">Отмена</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="selectChatModal" class="modal hidden">
+        <div class="modal-content">
+          <button class="modal-close-btn" id="selectChatCloseBtn">✕</button>
+          <h2>Выберите чат для отправки локации</h2>
+          <div id="chatSelectionList" class="chat-selection-list">
+
+          </div>
+        </div>
+      </div>
+
+      <div id="locationModal" class="modal hidden">
+        <div class="modal-content">
+          <button class="modal-close-btn" id="locationCloseBtn">✕</button>
+          <h2 id="locationTitle"></h2>
+          <div class="location-card">
+            <img id="locationPhoto" src="" alt="" class="location-img" />
+            <div class="location-info">
+              <p id="locationDesc"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="bottom-nav">
-        <button id="feedNavBtn" class="nav-button">
-          <span class="nav-icon">🌍</span>
-          <span class="nav-label">Лента</span>
-        </button>
         <button id="chatsNavBtn" class="nav-button active">
           <span class="nav-icon">💬</span>
-          <span class="nav-label">Чаты</span>
+          <span class="nav-label">Chats</span>
+        </button>
+        <button id="feedNavBtn" class="nav-button">
+          <span class="nav-icon">🌍</span>
+          <span class="nav-label">Feed</span>
+        </button>
+        <button id="mapNavBtn" class="nav-button">
+          <span class="nav-icon">🗺️</span>
+          <span class="nav-label">Map</span>
         </button>
         <button id="profileNavBtn" class="nav-button">
           <span class="nav-icon">👤</span>
-          <span class="nav-label">Профиль</span>
+          <span class="nav-label">Profile</span>
         </button>
       </div>
     </div>
@@ -464,16 +610,21 @@
       let currentChatUserId = null;
       let currentUserId = Number(document.body.dataset.userId) || null;
       let currentNickname = document.body.dataset.userName || "";
+      let chatsList = [];
 
-      // Подключение к сокету
       socket.on("connect", () => {
         socket.emit("join", { user_id: currentUserId });
       });
 
-      // Загрузка списка чатов при загрузке страницы
       loadChatList();
 
-      // Поиск пользователей
+      const shareLocationData = localStorage.getItem('shareLocation');
+      if (shareLocationData) {
+        const location = JSON.parse(shareLocationData);
+        handleShareLocation(location);
+        localStorage.removeItem('shareLocation');
+      }
+
       document
         .getElementById("searchInput")
         .addEventListener("input", function () {
@@ -482,10 +633,10 @@
             fetch(`/api/search_users?q=${encodeURIComponent(query)}`)
               .then((response) => response.json())
               .then((users) => {
-                displayUsers(users, false); // false - это поиск, не список чатов
+                displayUsers(users, false); 
               });
           } else {
-            loadChatList(); // Показать список чатов, если поиск пустой
+            loadChatList(); 
           }
         });
 
@@ -493,7 +644,8 @@
         fetch("/api/chat_list")
           .then((response) => response.json())
           .then((chats) => {
-            displayUsers(chats, true); // true - это список чатов
+            chatsList = chats;
+            displayUsers(chats, true); 
           });
       }
 
@@ -537,7 +689,6 @@
 
         document.querySelector(".back-btn").onclick = closeChat;
 
-        // Загрузка сообщений
         fetch(`/api/messages/${userId}`)
           .then((response) => response.json())
           .then((messages) => {
@@ -563,6 +714,9 @@
           const messageDiv = document.createElement("div");
           messageDiv.className = `message ${msg.sender_id == currentUserId ? "sent" : "received"}`;
           let content = `<div>${msg.message}</div>`;
+          if (msg.location) {
+            content += `<div class="location-message" onclick='openLocationModal(${JSON.stringify(msg.location).replace(/'/g, "\\'")})'>📍 ${msg.location.title}</div>`;
+          }
           if (msg.file_url) {
             if (msg.file_type === "image") {
               content += `<img src="${msg.file_url}" alt="${msg.file_name}" class="message-image" />`;
@@ -577,7 +731,6 @@
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
       }
 
-      // Прикрепление файла
       document.getElementById("attachBtn").addEventListener("click", () => {
         document.getElementById("fileInput").click();
       });
@@ -608,11 +761,10 @@
             } catch (error) {
               alert("Ошибка загрузки файла");
             }
-            e.target.value = ""; // Reset input
+            e.target.value = ""; 
           }
         });
 
-      // Отправка сообщения
       document
         .getElementById("sendBtn")
         .addEventListener("click", () => sendMessage());
@@ -640,7 +792,6 @@
         }
       }
 
-      // Получение новых сообщений
       socket.on("new_private_message", (data) => {
         if (
           (data.sender_id == currentChatUserId &&
@@ -652,6 +803,9 @@
           const messageDiv = document.createElement("div");
           messageDiv.className = `message ${data.sender_id == currentUserId ? "sent" : "received"}`;
           let content = `<div>${data.message}</div>`;
+          if (data.location) {
+            content += `<div class="location-message" onclick='openLocationModal(${JSON.stringify(data.location).replace(/'/g, "\\'")})'>📍 ${data.location.title}</div>`;
+          }
           if (data.file_url) {
             if (data.file_type === "image") {
               content += `<img src="${data.file_url}" alt="${data.file_name}" class="message-image" />`;
@@ -665,46 +819,106 @@
           messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
 
-        // Обновить список чатов после получения нового сообщения
         loadChatList();
       });
 
-      // ===== BOTTOM NAVIGATION HANDLERS =====
-      const feedNavBtn = document.getElementById("feedNavBtn");
-      const chatsNavBtn = document.getElementById("chatsNavBtn");
-      const profileNavBtn = document.getElementById("profileNavBtn");
-      const profileModal = document.getElementById("profileModal");
-      const profileCloseBtn = document.getElementById("profileCloseBtn");
+      const shareLocationModal = document.getElementById("shareLocationModal");
+      const shareLocationCloseBtn = document.getElementById("shareLocationCloseBtn");
+      const sendLocationBtn = document.getElementById("sendLocationBtn");
+      const cancelShareBtn = document.getElementById("cancelShareBtn");
+      const selectChatModal = document.getElementById("selectChatModal");
+      const selectChatCloseBtn = document.getElementById("selectChatCloseBtn");
 
-      feedNavBtn.onclick = () => (window.location.href = "/");
-      chatsNavBtn.onclick = () => profileModal.classList.add("hidden");
+      shareLocationCloseBtn.onclick = () => shareLocationModal.classList.add("hidden");
+      cancelShareBtn.onclick = () => shareLocationModal.classList.add("hidden");
+      selectChatCloseBtn.onclick = () => selectChatModal.classList.add("hidden");
 
-      profileNavBtn.onclick = () => {
-        document.getElementById("profileAvatar").src =
-          "{{ current_user.avatar }}" ||
-          "https://via.placeholder.com/80x80/fff5f5/ffd700?text=👤";
-        document.getElementById("profileNickname").textContent =
-          "{{ current_user.nickname }}";
-        profileModal.classList.remove("hidden");
+      sendLocationBtn.onclick = () => {
+        const location = JSON.parse(localStorage.getItem('shareLocation') || '{}');
+        sendLocationMessage(location);
+        shareLocationModal.classList.add("hidden");
       };
 
-      profileCloseBtn.onclick = () => profileModal.classList.add("hidden");
+      function handleShareLocation(location) {
+        if (currentChatUserId) {
+          showShareLocationModal(location);
+        } else {
+          showSelectChatModal(location);
+        }
+      }
 
-      // Закрытие при клике на оверлей
-      profileModal.onclick = (e) => {
-        if (e.target === profileModal) {
-          profileModal.classList.add("hidden");
+      function showShareLocationModal(location) {
+        document.getElementById("shareLocationTitle").textContent = location.title;
+        document.getElementById("shareLocationDesc").textContent = location.desc;
+        const photos = Array.isArray(location.photos) ? location.photos : [];
+        document.getElementById("shareLocationPhoto").src = photos.length ? photos[0] : '';
+        localStorage.setItem('shareLocation', JSON.stringify(location));
+        shareLocationModal.classList.remove("hidden");
+      }
+
+      function showSelectChatModal(location) {
+        const list = document.getElementById("chatSelectionList");
+        list.innerHTML = "";
+        chatsList.forEach((chat) => {
+          const item = document.createElement("div");
+          item.className = "chat-select-item";
+          item.onclick = () => {
+            openChat(chat.id, chat.nickname);
+            selectChatModal.classList.add("hidden");
+            setTimeout(() => sendLocationMessage(location), 500);
+          };
+          item.innerHTML = `
+            <div class="chat-select-avatar">${chat.nickname.charAt(0).toUpperCase()}</div>
+            <div class="chat-select-info">
+              <h4>${chat.nickname}</h4>
+              <p>${chat.last_message || "Нет сообщений"}</p>
+            </div>
+          `;
+          list.appendChild(item);
+        });
+        selectChatModal.classList.remove("hidden");
+      }
+
+      function sendLocationMessage(location) {
+        if (currentChatUserId) {
+          socket.emit("private_message", {
+            receiver_id: currentChatUserId,
+            message: `Отправил локацию: ${location.title}`,
+            location: location,
+          });
+        }
+      }
+
+      function openLocationModal(location) {
+        document.getElementById("locationTitle").textContent = location.title;
+        document.getElementById("locationDesc").textContent = location.desc;
+        const photos = Array.isArray(location.photos) ? location.photos : [];
+        document.getElementById("locationPhoto").src = photos.length ? photos[0] : '';
+        document.getElementById("locationModal").classList.remove("hidden");
+      }
+
+      const locationModal = document.getElementById("locationModal");
+      const locationCloseBtn = document.getElementById("locationCloseBtn");
+      locationCloseBtn.onclick = () => locationModal.classList.add("hidden");
+
+      locationModal.onclick = (e) => {
+        if (e.target === locationModal) {
+          locationModal.classList.add("hidden");
         }
       };
 
-      // Закрытие ВСЕ модалок при клике вне окна
-      document.querySelectorAll(".modal").forEach((modalEl) => {
-        modalEl.addEventListener("click", (e) => {
-          if (e.target === modalEl) {
-            modalEl.classList.add("hidden");
-          }
-        });
-      });
+      shareLocationModal.onclick = (e) => {
+        if (e.target === shareLocationModal) {
+          shareLocationModal.classList.add("hidden");
+        }
+      };
+
+      selectChatModal.onclick = (e) => {
+        if (e.target === selectChatModal) {
+          selectChatModal.classList.add("hidden");
+        }
+      };
+
     </script>
   </body>
 </html>
